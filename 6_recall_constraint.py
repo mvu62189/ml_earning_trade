@@ -6,7 +6,7 @@ from sklearn.model_selection import ParameterGrid
 
 # File Names
 DF_FILE = 'feature_panel_daily.csv'
-TARGET_HORIZON = '3m' # Default to 3m horizon
+# TARGET_HORIZON = '3m' # Default to 3m horizon
 
 def calculate_sharpe(returns):
     """Calculates Sharpe Ratio."""
@@ -66,7 +66,7 @@ def optimize_rank_threshold(model, X_val, df_val, fwd_ret_col):
 # ==========================================
 # 3. TRAINING LOOP
 # ==========================================
-def train_dynamic_strategy(df):
+def train_dynamic_strategy(df, TARGET_HORIZON):
     
     # Comprehensive Feature List (Corrected and robust names)
     features = [
@@ -175,4 +175,7 @@ if __name__ == "__main__":
         for h in horizons.keys():
             # Target is 1 if forward return is less than -2%
             df_merged[f'target_neg_{h}'] = (df_merged[f'fwd_ret_{h}'] < -0.02).astype(int)
-        train_dynamic_strategy(df_merged)
+
+        all_horizons = ['1w', '1m', '3m']
+        for horizon in all_horizons:
+            train_dynamic_strategy(df_merged, horizon)
