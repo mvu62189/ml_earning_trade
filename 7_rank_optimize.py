@@ -112,6 +112,8 @@ def train_dynamic_strategy(df, TARGET_HORIZON):
     # --- OPTIMIZATION (Finds best P%) ---
     best_pct = optimize_rank_threshold(model, X_val, val, fwd_ret)
     
+    print(f"\nOptimization Complete: Best Safety Rank Percentile (P%) on Validation Set: {best_pct:.0%}")
+
     # --- FINAL TEST ---
     test_probs = model.predict_proba(X_test)[:, 1]
     test_df = test.copy()
